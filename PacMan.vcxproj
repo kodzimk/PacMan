@@ -136,8 +136,10 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cntrgame.h" />
+    <ClInclude Include="fruit.h" />
+    <ClInclude Include="map.h" />
     <ClInclude Include="pac.h" />
+    <ClInclude Include="Starter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

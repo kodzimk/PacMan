@@ -1,22 +1,14 @@
 #pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "starter.h" 
+#include"Starter.h"
 using namespace sf;
 
-Texture sprTexture;
-Texture backTexture;
-Starter* starter;
-int winW = 23 * 30;
-int winH = 25 * 30;
+
 int main()
 {
 
-    while (!sprTexture.loadFromFile("texture/PMSprites.png")) {};
-    RenderWindow window(VideoMode(winW, winH), "PacMan", Style::Default);
-    window.setActive(false);
-    starter = new Starter(&window, &sprTexture);
-    std::cout << "Closed window " << endl;
-    delete starter;
+    Starter game;
+   
     return 0;
 };
