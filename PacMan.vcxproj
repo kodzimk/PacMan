@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\Кайсар Санжар Мама\Documents\Libraies\SFML-2.6.0-windows-vc17-64-bit\SFML-2.6.0\include;C:\Users\Кайсар Санжар Мама\Documents\Libraies\SFML-2.6.0-windows-vc17-64-bit\SFML-2.6.0\include;C:\Users\Кайсар Санжар Мама\Documents\Libraies\SFML-2.6.0-windows-vc17-64-bit\SFML-2.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -136,9 +136,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="mainStartter.h" />
-    <ClInclude Include="map.h" />
-    <ClInclude Include="PacPlayer.h" />
+    <ClInclude Include="cntrgame.h" />
+    <ClInclude Include="pac.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

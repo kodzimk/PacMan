@@ -20,13 +20,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PacPlayer.h">
+    <ClInclude Include="cntrgame.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="mainStartter.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="map.h">
+    <ClInclude Include="pac.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
