@@ -29,6 +29,8 @@ public:
 	int animation;
 	bool isInHome;
 	bool gameOver;
+	float timer = 40;
+	bool isEten;
 
 
 	ghost()
@@ -43,6 +45,18 @@ public:
 
 	void Move(FloatRect other,Pac pac)
 	{
+		if (isEten == true)
+		{
+			timer--;
+			if (time <= 0)
+			{
+				isEten = false;
+				time = 100;
+				direction = GhostDirection::right;
+				state = GhostState::Move;
+				dx = 0.03;
+			}
+		}
 		if (state == GhostState::Move)
 		{
 			
@@ -314,6 +328,7 @@ public:
 
 	void goHome()
 	{
+		isEten = true;
 		sprite.setPosition(startX * 30, startY * 30);
 		state = GhostState::Stay;
 		direction = GhostDirection::none;

@@ -4,6 +4,7 @@
 #include"map.h"
 #include<SFML/Graphics.hpp>
 #include"ghostEnemy.h"
+#include"sound.h"
 
 using namespace std;
 using namespace sf;
@@ -16,21 +17,22 @@ public:
 	Texture texture;
 	Sprite sprite;
 	ghost redGhost;
-	Text gameOverText;
-	
+	Text gameOverText;	
 	fruit fruits;
+	
 
 	Starter()
 	{
+		
 		gameOverText.setFont(pac.font);
 		gameOverText.setString("Game Over");
-		gameOverText.setScale(sf::Vector2f(30,30));
+		gameOverText.setScale(sf::Vector2f(5,5));
 
 		window.create(VideoMode(690,750),"Pac Man");
 		texture.loadFromFile("texture/PMSprites.png");
 		sprite.setTexture(texture);
 		sprite.setTextureRect(IntRect(0,180,25,25));
-
+		
 		Loop();
 	}
 
@@ -44,19 +46,19 @@ public:
 				if (event.type == sf::Event::Closed)
 					window.close();
 			}
+			if(!redGhost.gameOver){
 			FloatRect other = pac.sprite.getGlobalBounds();
 
 			redGhost.Move(other,pac);
 
-		
+	
+				pac.inreactwithworld(pac.sprite.getPosition().y / 30, pac.sprite.getPosition().x / 30, map);
 
-
-			pac.inreactwithworld(pac.sprite.getPosition().y / 30, pac.sprite.getPosition().x / 30,map);
-
-			for (int i = 0; i < map.dotsArr.size(); i++)
-			{
-				FloatRect other = map.dotsArr[i].getGlobalBounds();
-				pac.move(other);
+				for (int i = 0; i < map.dotsArr.size(); i++)
+				{
+					FloatRect other = map.dotsArr[i].getGlobalBounds();
+					pac.move(other);
+				}
 			}
 
 			winGame();
@@ -114,7 +116,9 @@ public:
 		{
 			redGhost.gameOver = true;
 			gameOverText.setString("You win");
-			gameOverText.setScale(Vector2f(30,30));
+			gameOverText.setScale(Vector2f(5,5));
+			pac.dx = 0;
+			pac.dy = 0;
 		}
 	}
 

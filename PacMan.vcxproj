@@ -140,6 +140,7 @@
     <ClInclude Include="ghostEnemy.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="pac.h" />
+    <ClInclude Include="sound.h" />
     <ClInclude Include="Starter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

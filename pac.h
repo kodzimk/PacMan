@@ -1,6 +1,7 @@
 #include<SFML/Graphics.hpp>
 #include <thread>
 #include"map.h"
+#include"sound.h"
 
 #include<iostream>
 
@@ -29,6 +30,7 @@ public:
 	bool startGame = false;
 	std::vector<Sprite> fruits;
 	int posX, posY;
+	sound sounds;
 
 	Pac()
 	{
@@ -73,6 +75,7 @@ public:
 	{
 		if (map.map[i][j] == ' ')
 		{
+			sounds.eatSound.play();
 			score += 10;
 			scoreText.setString(std::to_string(score));
 			map.map[i][j] = '9';
