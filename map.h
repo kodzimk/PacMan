@@ -21,16 +21,16 @@ public:
 "#E   F# ####### #D   R#" ,
 "##### #E  W#Q  R# #####" ,
 "##### #### # #### #####" ,
-"##### #Q  AGA  W# #####" ,
+"##### #T  YGY  W# #####" ,
 "##### # ###-### # #####" ,
 "0====X F#BP*IC#D X====0" ,
 "##### # ####### # #####" ,
-"##### #D   1   F# #####" ,
+"##### #D   1    # #####" ,
 "##### # ####### # #####" ,
 "##### # ####### # #####" ,
-"#Q   X A  W#Q  A X   W#" ,
+"#Q   X A  W#Q  A X   F#" ,
 "# ### #### # #### ### #" ,
-"#E W#D S  AcA  S F#Q R#" ,
+"#E W#D S  AcA  S E#Q R#" ,
 "### # # ####### # # ###" ,
 "#Q A R#E  W#Q  R#E A W#" ,
 "# ######## # ######## #" ,
@@ -42,6 +42,9 @@ public:
 	Texture texture;
 	Sprite sprite;
     std::vector<sf::RectangleShape>  dotsArr;
+
+
+
 	RectangleShape shape;
     int dotsCount = 0;
 	int rectangleCount = 0;
@@ -62,6 +65,7 @@ public:
 		{
 			for (int j = 0; j < 23; j++)
 			{
+
 				if (map[i][j] == '#')
 				{
 					shape.setSize(sf::Vector2f(30, 30));
@@ -69,7 +73,7 @@ public:
 					shape.setFillColor(Color::Blue);
 					dotsArr.push_back(shape);
 					rectangleCount++;
-				}
+				}	
 			}
 		}
     }

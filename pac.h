@@ -28,6 +28,7 @@ public:
 	Text scoreText;
 	bool startGame = false;
 	std::vector<Sprite> fruits;
+	int posX, posY;
 
 	Pac()
 	{
@@ -47,6 +48,8 @@ public:
 				if (map.map[i][j] == '1')
 				{
 					sprite.setPosition(j * 30, i * 30);
+					posY = i;
+					posX = j;
 					break;
 				}
 			}
@@ -66,7 +69,7 @@ public:
 		time = 0;
 	}
 
-	void inreactwithworld(int i,int j)
+	void inreactwithworld(int i,int j,Map &map)
 	{
 		if (map.map[i][j] == ' ')
 		{
@@ -150,12 +153,10 @@ public:
 		x = sprite.getPosition().x;
 		y = sprite.getPosition().y;
 		
-		
+
 
 		if (isCanMove(y / 30, x / 30,other)==false)
            	sprite.move(dx * time, dy * time);
-
-
 
 	}
 

@@ -16,11 +16,16 @@ public:
 	Texture texture;
 	Sprite sprite;
 	ghost redGhost;
+	Text gameOverText;
+	
 	fruit fruits;
 
 	Starter()
 	{
-	
+		gameOverText.setFont(pac.font);
+		gameOverText.setString("Game Over");
+		gameOverText.setScale(sf::Vector2f(30,30));
+
 		window.create(VideoMode(690,750),"Pac Man");
 		texture.loadFromFile("texture/PMSprites.png");
 		sprite.setTexture(texture);
@@ -39,27 +44,33 @@ public:
 				if (event.type == sf::Event::Closed)
 					window.close();
 			}
+			FloatRect other = pac.sprite.getGlobalBounds();
 
-			redGhost.Move();
-			pac.inreactwithworld(pac.sprite.getPosition().y / 30, pac.sprite.getPosition().x / 30);
+			redGhost.Move(other,pac);
+
+		
+
+
+			pac.inreactwithworld(pac.sprite.getPosition().y / 30, pac.sprite.getPosition().x / 30,map);
 
 			for (int i = 0; i < map.dotsArr.size(); i++)
 			{
 				FloatRect other = map.dotsArr[i].getGlobalBounds();
 				pac.move(other);
-
-
 			}
 
-			
+			winGame();
 
 			window.clear();	
-			window.draw(pac.sprite);
-			window.draw(map.sprite);
-			window.draw(redGhost.sprite);
+			window.draw(map.sprite);		
 			for (int i = 0; i < map.dotsArr.size(); i++)
 			{
 				window.draw(map.dotsArr[i]);
+			}		
+			window.draw(redGhost.sprite);
+			if (redGhost.gameOver)
+			{
+				window.draw(gameOverText);
 			}
 			for (int i = 0; i < 25; i++)
 			{
@@ -72,6 +83,7 @@ public:
 					}
 				}
 			}
+			window.draw(pac.sprite);
 			window.draw(pac.scoreText);
 			window.display();
 		}
@@ -84,6 +96,28 @@ public:
 			
 			(*pac).startGame = false;
 	}
+
+	void winGame()
+	{
+		int count = 0;
+		for (int i = 0; i < 25; i++)
+		{
+			for (int j = 0; j < 23; j++)
+			{
+				if (map.map[i][j] == ' ')
+				{
+					count++;
+				}
+			}
+	    }
+		if (count == 0)
+		{
+			redGhost.gameOver = true;
+			gameOverText.setString("You win");
+			gameOverText.setScale(Vector2f(30,30));
+		}
+	}
+
 };
 
 

@@ -7,7 +7,7 @@ using namespace std;
 using namespace sf;
 
 enum GhostDirection {
-	up,down,left,right
+	up,down,left,right,none
 };
 
 enum GhostState {
@@ -24,9 +24,12 @@ public:
 	Clock clock;
 	GhostDirection direction;
 	Map map;
+	int startX, startY;
 	GhostState state;
 	int animation;
 	bool isInHome;
+	bool gameOver;
+
 
 	ghost()
 	{
@@ -38,7 +41,7 @@ public:
 		init();
 	}
 
-	void Move()
+	void Move(FloatRect other,Pac pac)
 	{
 		if (state == GhostState::Move)
 		{
@@ -49,10 +52,9 @@ public:
 			if (dx > 0 || dx < 0 || dy < 0 || dy>0)
 				sprite.move(time * dx, time * dy);
 
-			y = sprite.getPosition().y / 27.7;
+			y = sprite.getPosition().y / 30;
 			x = sprite.getPosition().x / 30;
-			
-			checkCollision(y, x);
+			inteacrt(y, x,other,pac);
 			
 		}
 		
@@ -70,6 +72,9 @@ public:
 				if (map.map[i][j] == 'P')
 				{
 					sprite.setPosition(j * 30, i * 30);
+					startX = j;
+					startY = i;
+					break;
 				}
 			}
 		}
@@ -83,124 +88,237 @@ public:
 		state = GhostState::Move;
 	}
 
-	void checkCollision(int i,int j)
+	void inteacrt(int i,int j,FloatRect other,Pac pac)
 	{
-		
-		
-		if (map.map[i][j] == '*')
+		FloatRect own = sprite.getGlobalBounds();
+
+
+		if (own.intersects(other))
 		{
-			isInHome = false;
-			dx = 0;
-			dy = -0.03;
-			direction = GhostDirection::up;
-			animation = 3;
+			if (direction == GhostDirection::up && (dy > 0||dy<0))
+			{
+				isInHome = true;
+				goHome();
+			}
+			else if (direction == GhostDirection::down && (dy < 0||dy>0))
+			{
+				isInHome = true;
+				goHome();
+			}
+			else if (direction == GhostDirection::right && (dx < 0 || dx>0))
+			{
+				isInHome = true;
+				goHome();
+			}
+			else if (direction == GhostDirection::left && (dx > 0 || dx < 0))
+			{
+				isInHome = true;
+				goHome();
+			}
+			else
+			   gameOver = true;
+		}
+
+		if (state == GhostState::Move)
+		{
+			for (int k = 0; k < 25; k++)
+			{
+				for (int q = 0; q < 23; q++)
+				{
+					if (i + 1 == k && q == j && map.map[i + 1][j] == 'W')
+					{
+						if (direction == GhostDirection::right)
+						{
+
+							dx = 0;
+							dy = 0.03;
+							direction = GhostDirection::down;
+							anim = 3;
+							animation = 2;
+						}
+						else
+						{
+
+							dx = -0.03;
+							dy = 0;
+							direction = GhostDirection::left;
+							anim = 0;
+							animation = 0;
+						}
+					}
+					else if (i + 1 == k && q == j + 1 && map.map[i + 1][j + 1] == 'T')
+					{
+						if (direction == GhostDirection::left)
+						{
+							dx = 0;
+							dy = 0.03;
+							direction = GhostDirection::down;
+							anim = 3;
+							animation = 2;
+						}
+						else
+						{
+							dx = 0.03;
+							dy = 0;
+							direction = GhostDirection::right;
+							anim = 1;
+							animation = 4;
+						}
+					}
+					else if (i == k && q == j && map.map[i][j] == 'R') {
+						if (direction == GhostDirection::right)
+						{
+							dx = 0;
+							dy = -0.03;
+							direction = GhostDirection::up;
+							anim = 2;
+							animation = 2;
+						}
+						else
+						{
+							dx = -0.03;
+							dy = 0;
+							direction = GhostDirection::left;
+							anim = 1;
+							animation = 4;
+						}
+					}
+					else if (i == k && q == j && map.map[i][j] == 'E')
+					{
+						if (direction == GhostDirection::left)
+						{
+							dx = 0;
+							dy = -0.03;
+							direction = GhostDirection::up;
+							anim = 2;
+							animation = 2;
+						}
+						else
+						{
+							dx = 0.03;
+							dy = 0;
+							direction = GhostDirection::right;
+							anim = 0;
+							animation = 0;
+						}
+					}
+					else if (i == k && q == j && map.map[i][j] == 'F')
+					{
+						if (direction == GhostDirection::right)
+						{
+							dx = 0;
+							dy = -0.03;
+							direction = GhostDirection::down;
+							anim = 2;
+							animation = 2;
+						}
+						else
+						{
+							dx = 0.03;
+							dy = 0;
+							direction = GhostDirection::left;
+							anim = 0;
+							animation = 0;
+						}
+					}
+					else if (i == k && q == j && map.map[i][j] == 'A')
+					{
+						if (direction == GhostDirection::up)
+						{
+							dx = 0;
+							dy = -0.03;
+							direction = GhostDirection::right;
+							anim = 2;
+							animation = 2;
+						}
+						else
+						{
+							dx = 0;
+							dy = -0.03;
+							direction = GhostDirection::up;
+							anim = 2;
+							animation = 2;
+						}
+					}
+					else if (i == k && q == j && map.map[i][j] == 'Q')
+					{
+						if (direction == GhostDirection::left)
+						{
+							dx = 0;
+							dy = 0.03;
+							direction = GhostDirection::down;
+							anim = 3;
+							animation = 2;
+						}
+						else
+						{
+							dx = 0.03;
+							dy = 0;
+							direction = GhostDirection::right;
+							anim = 1;
+							animation = 4;
+						}
+					}
+					else if (i + 1 == k && q == j + 1 && map.map[i + 1][j + 1] == 'Y')
+					{
+						if (direction == GhostDirection::right)
+						{
+							dx = 0;
+							dy = -0.03;
+							direction = GhostDirection::up;
+							anim = 3;
+							animation = 2;
+						}
+						else
+						{
+							dx = 0.03;
+							dy = 0;
+							direction = GhostDirection::left;
+							anim = 1;
+							animation = 4;
+						}
+					}
+				}
+			}
+		}
+
+        if (map.map[i][j] == '*')
+	  {
+		  isInHome = false;
+		  dx = 0;
+		  dy = -0.03;
+		  direction = GhostDirection::up;
+		  animation = 3;
+		  return;
+	  }	
+		if (map.map[i+1][j] == 'G')
+			{
+				dx = 0.03;
+				dy = 0;
+				direction = GhostDirection::right;
+				animation = 1;
+				anim = 4;
+				return;
+			}
+		if (map.map[i][j] == '0' && j > 20)
+		{
+			sprite.setPosition(660, 330);
 			return;
 		}
-		
-		cout << "Y:" << i << " X: " << j << endl;
-				
-			if (map.map[i][j]=='Q')
-			{
-				if (direction == GhostDirection::left)
-				{
-					direction = GhostDirection::down;
-					dx = 0;
-					dy = 0.03;
-					anim = 4;
-					animation = 4;
-				}
-				else
-				{
-					animation = 0;
-					dx = 0.03;
-					dy = 0;
-					direction = GhostDirection::right;
-					anim = 0;
-				}
-				
-			}
-			else if (map.map[i][j] == 'W')
-			{
-				if (dx>0)
-				{
-					animation = 4;
-					dx = 0;
-					dy = 0.03;
-					direction = GhostDirection::down;
-					anim = 1;
-				}
-				else
-				{
-					animation = 6;
-					dx = -0.03;
-					dy = 0;
-					direction = GhostDirection::left;
-					anim = 1;
-				}
-				
-			}
-			else if (map.map[i][j] == 'G')
-			{
-				if (direction == GhostDirection::up)
-				{
-					dx = 0.03;
-					dy = 0;
-					direction = GhostDirection::right;
-					anim = 0;
-					animation = 0;
-				}
-			}
-			else if (map.map[i][j] == 'E'||map.map[i][j]=='A')
-			{
-				if (direction == GhostDirection::left)
-				{
-					animation = 2;
-					dx = 0;
-					dy = -0.03;
-					direction = GhostDirection::up;
-					anim = 3;
-				}
-				else
-				{
-					dx = 0.03;
-					dy = 0;
-					direction = GhostDirection::right;
-					anim = 0;
-				}
-			
-			}
-			else if (map.map[i][j] == 'R')
-			{
-				if (direction == GhostDirection::right)
-				{
-					dx = 0;
-					dy = -0.03;
-					direction = GhostDirection::up;
-					anim = 3;
-				}
-				else
-				{
-					dx = -0.03;
-					dy = 0;
-					direction = GhostDirection::left;
-					anim = 1;
-				}
-			
-			}
-			
+		else if (map.map[i][j] == '0' && j < 20)
+		{
+			sprite.setPosition(30, 330);
+			return;
+		}
+	}
 
-	
-
-			if (map.map[i][j] == '0' && j > 20)
-			{
-				sprite.setPosition(660, 330);
-				return;
-			}
-			else if (map.map[i][j] == '0' && j < 20)
-			{
-				sprite.setPosition(30, 330);
-				return;
-			}
+	void goHome()
+	{
+		sprite.setPosition(startX * 30, startY * 30);
+		state = GhostState::Stay;
+		direction = GhostDirection::none;
+		dx = 0;
+		dy = 0;
 	}
 
 	void Animation()
