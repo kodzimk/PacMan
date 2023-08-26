@@ -3,6 +3,7 @@
 #include"fruit.h"
 #include"map.h"
 #include<SFML/Graphics.hpp>
+#include"ghostEnemy.h"
 
 using namespace std;
 using namespace sf;
@@ -14,11 +15,12 @@ public:
 	RenderWindow window;
 	Texture texture;
 	Sprite sprite;
+	ghost redGhost;
 	fruit fruits;
 
 	Starter()
 	{
-
+	
 		window.create(VideoMode(690,750),"Pac Man");
 		texture.loadFromFile("texture/PMSprites.png");
 		sprite.setTexture(texture);
@@ -38,23 +40,24 @@ public:
 					window.close();
 			}
 
-		    pac.inreactwithworld(pac.sprite.getPosition().y/30 ,pac.sprite.getPosition().x/30,map);
-			
+			redGhost.Move();
+			pac.inreactwithworld(pac.sprite.getPosition().y / 30, pac.sprite.getPosition().x / 30);
 
 			for (int i = 0; i < map.dotsArr.size(); i++)
 			{
 				FloatRect other = map.dotsArr[i].getGlobalBounds();
 				pac.move(other);
+
+
 			}
-		
-			
 
 			
 
 			window.clear();	
 			window.draw(pac.sprite);
 			window.draw(map.sprite);
-			for (int i = 0; i < map.rectangleCount; i++)
+			window.draw(redGhost.sprite);
+			for (int i = 0; i < map.dotsArr.size(); i++)
 			{
 				window.draw(map.dotsArr[i]);
 			}
@@ -73,4 +76,14 @@ public:
 			window.display();
 		}
 	}
+	void GameStart(bool startgame, ghost* redGhost,Pac* pac)
+	{
+
+			(*redGhost).state = GhostState::Move;
+			(*redGhost).dx = 0.03;
+			
+			(*pac).startGame = false;
+	}
 };
+
+

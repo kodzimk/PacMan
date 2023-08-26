@@ -26,6 +26,7 @@ public:
 	Font font;
 	int score = 0;
 	Text scoreText;
+	bool startGame = false;
 	std::vector<Sprite> fruits;
 
 	Pac()
@@ -65,7 +66,7 @@ public:
 		time = 0;
 	}
 
-	void inreactwithworld(int i,int j,Map &map)
+	void inreactwithworld(int i,int j)
 	{
 		if (map.map[i][j] == ' ')
 		{
@@ -149,6 +150,7 @@ public:
 		x = sprite.getPosition().x;
 		y = sprite.getPosition().y;
 		
+		
 
 		if (isCanMove(y / 30, x / 30,other)==false)
            	sprite.move(dx * time, dy * time);
@@ -171,6 +173,7 @@ public:
 			direction = PacDirection::Down;
 			dx = 0;
 			dy = 0.05;
+			startGame = true;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Up))
 		{
@@ -178,6 +181,7 @@ public:
 			currentAnim = 3;
 			dx = 0;
 			dy = -0.05;
+			startGame = true;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Left))
 		{
@@ -185,6 +189,8 @@ public:
 			currentAnim = 2;
 			dx = -0.05;
 			dy = 0;
+
+				startGame = true;
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right))
 		{
@@ -192,6 +198,7 @@ public:
 			currentAnim = 1;
 			dy = 0;
 			dx = 0.05;
+				startGame = true;
 		}
 	}
 

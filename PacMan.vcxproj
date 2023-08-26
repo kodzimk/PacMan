@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="fruit.h" />
+    <ClInclude Include="ghostEnemy.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="pac.h" />
     <ClInclude Include="Starter.h" />
